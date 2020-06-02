@@ -2930,14 +2930,7 @@ class GraphProto(object):
                 self._nodes[name] = [_expr.var(name, shape=var_shape, dtype='uint8')]
                 return
 
-            array_ndim = len(np_array.shape)
-            if array_ndim == 0:
-                self._nodes[name] = [tvm.relay.const(np_array)]
-            else:
-                self._params[name] = tvm.nd.array(np_array)
-                self._nodes[name] = [_expr.var(name,
-                                               shape=self._params[name].shape,
-                                               dtype=self._params[name].dtype)]
+            self._nodes[name] = [tvm.relay.const(np_array)]
         else:
             if key not in ('dtype', '_output_shapes', '_class'):
                 raise NotImplementedError \
